@@ -12,13 +12,13 @@ def get_tweets(twitter_handle):
     access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
     client = oauth.Client(consumer, access_token)
 
-    endpoint = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + twitter_handle + "&result_type=recent"
+    endpoint = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + twitter_handle + "&result_type=all"
     response, data = client.request(endpoint)
 
-    tweet_data = json.loads(data)
+    tweet_data = json.loads(data.decode('utf-8'))
     tweets = []
     for tweet in tweet_data['statuses']:
-        tweets.append(tweet['text'])
+        tweets.append(tweet['text'] + ' \n')
     return tweets
 
 #example

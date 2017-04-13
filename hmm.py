@@ -68,7 +68,8 @@ def endAfterN(st, i, num=100):
     else:
         return False
 
-def dataFromFile(filename):
+# Parse Project Gutenberg csv
+def dataFromNovel(filename):
     pass
 
 
