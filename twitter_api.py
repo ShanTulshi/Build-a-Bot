@@ -21,4 +21,5 @@ def get_tweets(twitter_handle):
         tweets.append(tweet['text'])
     return tweets
 
+#example
 print(get_tweets("Cmdr_Hadfield"))
