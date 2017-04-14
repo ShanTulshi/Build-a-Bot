@@ -13,4 +13,5 @@ def get_comments(reddit_username):
         comments.append(entry[u'data'][u'body'])
     return comments
 
-print(get_comments('Avesplosion'))
+#example
+print(get_comments('hannparkk'))
