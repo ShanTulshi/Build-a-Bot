@@ -31,7 +31,7 @@ class MarkovModel:
 
 def train(mm, data):
     assert type(mm) is MarkovModel
-    assert type(data) is list
+    # assert type(data) is list
     indices = {}
     l = 0
     # Reset the hmm, just good practice.
