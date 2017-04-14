@@ -12,7 +12,7 @@ def get_tweets(twitter_handle):
     access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
     client = oauth.Client(consumer, access_token)
 
-    endpoint = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + twitter_handle + "&result_type=all"
+    endpoint = "https://api.twitter.com/1.1/search/tweets.json?q=from%3A" + twitter_handle + "&result_type=all&count=100"
     response, data = client.request(endpoint)
 
     tweet_data = json.loads(data.decode('utf-8'))
