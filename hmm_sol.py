@@ -3,6 +3,7 @@ STUDENT CODE:
 '''
 
 from random import uniform, random
+from sample import *
 
 class MarkovModel:
     def __init__(self, probs=[], emissions=[]):
@@ -23,12 +24,14 @@ class MarkovModel:
         i = int(uniform(0, len(self.e)))
         word = self.e[i]
         while(endfunc(word, c) == False):
-            pass
-            # Your code here!
+            print(word, end=' ')
+            newi = random()
+            newi = search(self.p[i], newi)
+            word = self.e[newi]
+            i = newi
+            c += 1
+        print()
 
-'''
-PROVIDED CODE:
-'''
 def train(mm, data):
     assert type(mm) is MarkovModel
     l = 0
@@ -61,9 +64,12 @@ def train(mm, data):
                 mm.p[i][j] += mm.p[j][j-1]
 
 
+'''
+PROVIDED CODE:
+'''
 
 def endOnString(st, i, endstr="\n"):
-    if(st.strip() == endstr):
+    if(endstr in st):
         return True
     else:
         return False

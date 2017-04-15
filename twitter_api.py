@@ -1,5 +1,6 @@
 import oauth2 as oauth
 import json
+import re
 
 #twitter_handle should NOT include the '@' symbol
 def get_tweets(twitter_handle):
@@ -18,7 +19,7 @@ def get_tweets(twitter_handle):
     tweet_data = json.loads(data.decode('utf-8'))
     tweets = []
     for tweet in tweet_data['statuses']:
-        tweets.append(tweet['text'] + ' \n')
+        tweets.append(re.sub(r'https:\/\/t\.co\/.{10}', '', tweet['text'] + ' \n'))
     return tweets
 
 #example
