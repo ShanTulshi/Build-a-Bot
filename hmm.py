@@ -63,7 +63,7 @@ def train(mm, data):
 
 
 def endOnString(st, i, endstr="\n"):
-    if(st.strip() == endstr):
+    if(endstr in st):
         return True
     else:
         return False

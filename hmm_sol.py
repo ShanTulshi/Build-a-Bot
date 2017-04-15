@@ -3,7 +3,6 @@ STUDENT CODE:
 '''
 
 from random import uniform, random
-from sample import *
 
 class MarkovModel:
     def __init__(self, probs=[], emissions=[]):
@@ -32,6 +31,9 @@ class MarkovModel:
             c += 1
         print()
 
+'''
+PROVIDED CODE:
+'''
 def train(mm, data):
     assert type(mm) is MarkovModel
     l = 0
@@ -64,9 +66,6 @@ def train(mm, data):
                 mm.p[i][j] += mm.p[j][j-1]
 
 
-'''
-PROVIDED CODE:
-'''
 
 def endOnString(st, i, endstr="\n"):
     if(endstr in st):
