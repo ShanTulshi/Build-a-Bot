@@ -17,4 +17,4 @@ def get_comments(reddit_username):
     return comments
 
 #example
-print(get_comments('hannparkk'))
+# print(get_comments('hannparkk'))

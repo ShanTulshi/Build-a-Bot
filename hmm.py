@@ -3,13 +3,15 @@ STUDENT CODE:
 '''
 
 from random import uniform, random
+from sample import *
 
 class MarkovModel:
     def __init__(self, probs=[], emissions=[]):
-        assert type(probs) == list and type(emissions) is list
+        assert type(probs) is list and type(emissions) is list
+        assert len(probs) == len(emissions)
         self.p = probs
         self.e = emissions
-        self.s = [1]*len(probs)     # Size of the data that goes into making
+        self.indices = {}
 
     '''
     Run markov model until endfunc returns anything other than False
@@ -19,37 +21,46 @@ class MarkovModel:
     '''
     def run(self, endfunc):
         c = 0
-        i = uniform(0, len(self.e))
-        s = self.e[i]
-        while(endfunc(s, c) == False):
-            print(s)
+        i = int(uniform(0, len(self.e)))
+        word = self.e[i]
+        while(endfunc(word, c) == False):
+            print(word, end=' ')
             newi = random()
-            newi = binsearch(self.p[i], newi)
-            s = self.p[i][newi]
+            newi = search(self.p[i], newi)
+            word = self.e[newi]
             i = newi
             c += 1
+        print()
 
 def train(mm, data):
     assert type(mm) is MarkovModel
-    # assert type(data) is list
-    indices = {}
     l = 0
     # Reset the hmm, just good practice.
     mm.e = []
     mm.p = []
-    data = [(d.split(' ') + ['\n']) for d in data.split('\n')]
+    mm.indices = {}
+
+    data = [(d.split(' ') + ['\n']) for d in data]
     prev = None
     for sent in data:
         for word in sent:
-            if(indices.get(word) == None):
-                indices[word] = l
+            if(mm.indices.get(word) == None):
+                mm.indices[word] = l
                 l += 1
                 mm.e.append(word)
-                mm.p.append([0] * l)
-            if(indices.get(prev) != None):
-                mm.p[indices[prev]][indices[word]] += 1
-                mm.s[indices[prev]] += 1
-
+    mm.p = [([0] * len(mm.e)) for i in range(len(mm.e))]
+    for sent in data:
+        for word in sent:
+            if(mm.indices.get(prev) != None):
+                mm.p[mm.indices[prev]][mm.indices[word]] += 1
+            prev = word
+    # Divide everything by sum to get probabilities out of 1
+    for i in range(len(mm.p)):
+        denom = sum(mm.p[i])
+        for j in range(len(mm.p[i])):
+            mm.p[i][j] = (mm.p[i][j] + 1) / (denom + len(mm.p[i]))
+            if(j > 1):
+                mm.p[i][j] += mm.p[j][j-1]
 
 
 '''
@@ -62,26 +73,31 @@ def endOnString(st, i, endstr="\n"):
     else:
         return False
 
-def endAfterN(st, i, num=100):
-    if(i == num):
+def endAfterN(st, i, n=100):
+    if(i == n):
         return True
     else:
         return False
 
 # Parse Project Gutenberg csv
 def dataFromNovel(filename):
-    pass
+    f = open(filename)
+    data = []
+    for line in f:
+        # Remove extraneous lines
+        if(len(line) > 3):
+            # Add everything but the first char (") and the last 2 ("\n).
+            data.append(line[1:-2])
+    return data
 
 
-def binsearch(l, val, j=0):
+def search(l, val, j=0):
 	assert type(l) is list
-	if(len(l) < 1):
-		return None
-	elif(len(l) == 1):
+	if(len(l) <= 1):
 		return j
 	else:
 		i = len(l) // 2
 		if(val < l[i]):
-			binsearch(l[:i], val, j)
+			return search(l[:i], val, j)
 		else:
-			binsearch(l[i:], val, j+i)
+			return search(l[i:], val, j+i)
