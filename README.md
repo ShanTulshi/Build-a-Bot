@@ -9,4 +9,4 @@ Plz don't judge for the commit messages, I used [`whatthecommit.com`](http://wha
 
 ## Requirements  
 
-Built in python3. Requires oauth2.
+Built in python3. Requires oauth2. (psst! `$> pip3 install oauth2`)
